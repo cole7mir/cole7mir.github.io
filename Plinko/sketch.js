@@ -1,9 +1,7 @@
-import peg from './Peg';
-import ball from './Ball';
-import edge from './Edge';
-
 var Engine = Matter.Engine,
-    World = Matter.World;
+    World = Matter.World,
+    Events = Matter.Events,
+    Bodies = Matter.Bodies;
 
     var engine;
     var world;
@@ -12,13 +10,15 @@ var Engine = Matter.Engine,
     var edges = [];
     var cols = 11;
     var rows = 10;
-    var spacing = width / cols;
 
     function setup() {
         createCanvas(600, 700);
+        colorMode(HSB);
         engine = Engine.create();
         world = engine.world;
+
         newBall();
+        var spacing = width / cols;
         for (var j = 0; j < rows; j++){
             for (var i = 0; i < cols + 1; i++){
                 var x = i * spacing;
@@ -33,11 +33,15 @@ var Engine = Matter.Engine,
 
         var e = new Edge(width/2, height + 50, width, 100);
         edges.push(e);
+        var e = new Edge(5, 350, 10, 700);
+        edges.push(e);
+        var e = new Edge(595, 350, 10, 700);
+        edges.push(e);
 
         for (var i = 0; i < cols + 2; i++)
         {
             var x = i * spacing;
-            var h = 300;
+            var h = 125;
             var w = 10;
             var y = height - h/2;
             var e = new Edge(x, y, w, h);
@@ -51,26 +55,23 @@ var Engine = Matter.Engine,
     }
 
     function draw() {
-        if (frameCount % 60 == 0){
+        background(0,0,0);
+        if (frameCount % 40 == 0){
             newBall();
         }
-
-        background(25);
-        Engine.update(engine, (1000/30));
-        for (var b in balls)
-        {
-            b.show();
-            if (b.offScreen()){
-                World.remove(world, b.body)
-                balls.pop(b);
+        Engine.update(engine, (1000/45));
+        for (var i = 0; i < balls.length; i++) {
+            balls[i].show();
+            if (balls[i].isOffScreen()) {
+              World.remove(world, balls[i].body);
+              balls.splice(i, 1);
+              i--;
             }
-        }
-        for (var p in pegs)
-        {
-            p.show();
-        }
-        for (var e in edges)
-        {
-            e.show();
-        }
+          }
+          for (var i = 0; i < pegs.length; i++) {
+            pegs[i].show();
+          }
+          for (var i = 0; i < edges.length; i++) {
+            edges[i].show();
+          }
     }
