@@ -143,7 +143,7 @@
 
   /**
    * Skills animation
-   */
+  
   let skilsContent = select('.skills-content');
   if (skilsContent) {
     new Waypoint({
@@ -157,6 +157,7 @@
       }
     })
   }
+     */
 
   /**
    * Porfolio isotope and filter

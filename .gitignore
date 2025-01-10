@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+
+#Jekyll and Ruby Files for local hosting
+_site
+Gemfile
+Gemfile.lock
